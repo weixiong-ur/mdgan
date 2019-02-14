@@ -60,20 +60,24 @@ netG_S1.load_state_dict(torch.load(opt.netG_S1))
 netG_S2.load_state_dict(torch.load(opt.netG_S2))
 
 # -------------set inputs---------------------------------
-testset = VideoFolder(root=test_folder, nframes = 32,
-						   transform=transforms.Compose([
-							   transforms.Resize( (imageSize , imageSize) ),
-							   transforms.ToTensor(),
-							   transforms.Normalize((0.5, 0.5, 0.5),
-							   		(0.5, 0.5, 0.5)),
-						   ]))
+testset = VideoFolder(root=test_folder, 
+					nframes = 32,
+					transform=transforms.Compose([
+								transforms.Resize( (imageSize, imageSize) ),
+								transforms.ToTensor(),
+								transforms.Normalize((0.5, 0.5, 0.5),
+									(0.5, 0.5, 0.5)),
+									]))
 
 print('testset size: ' + str (len(testset) ) )
 
 
 valid_loader = DataLoader(testset,
-					  batch_size=48,
-					  num_workers=1,shuffle=True,drop_last = True, pin_memory=False)						 
+					batch_size=48,
+					num_workers=1,
+					shuffle=True,
+					drop_last = True, 
+					pin_memory=False)						 
 valid_iter = iter(valid_loader)
 val_gt, _ = valid_iter.next()
 print('validation video loaded.')
@@ -96,19 +100,22 @@ val_fake_s2 = val_fake_s2.data.permute(2,0,1,3,4)
 
 # save fake samples of stage 1
 for t in range(val_fake_s1.size(0)):
-	vutils.save_image(val_fake_s1[t],
-						'%s/samples_s1_frame_%03d.png' 
-						% (opt.outf, t),normalize=True, nrow = 8)                
+	vutils.save_image(val_fake_s1[t], 
+		'%s/samples_s1_frame_%03d.png'
+		% (opt.outf, t),normalize=True, 
+		nrow = 8)                
 # save fake samples of stage 2
 for t in range(val_fake_s2.size(0)):
 	vutils.save_image(val_fake_s2[t],
-						'%s/samples_s2_frame_%03d.png' 
-						% (opt.outf, t),normalize=True, nrow = 8)
+		'%s/samples_s2_frame_%03d.png'
+		% (opt.outf, t),normalize=True, 
+		nrow = 8)
 # save real samples
 for t in range(val_gt.permute(2,0,1,3,4).size(0)):
 	vutils.save_image(val_gt.permute(2,0,1,3,4)[t],
-						'%s/samples_real_frame_%03d.png'
-						% (opt.outf, t),normalize=True, nrow = 8)    
+		'%s/samples_real_frame_%03d.png'
+		% (opt.outf, t),normalize=True, 
+		nrow = 8)    
 
 def generate_video(model='s1', outf= opt.outf):
 	img_path = os.path.join(outf, 'samples_' + model +  '_frame_%03d.png')
