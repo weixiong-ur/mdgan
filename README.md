@@ -12,8 +12,8 @@ This is the official code of the CVPR 2018 PAPER.
 	* pytorch 0.3.0 or 0.3.1
 	* ffmpeg 
 2. Testing:
-	* download our pretrained models here
-	* run `python test.py --cuda --testf your_test_dataset_folder
+	* download our [pretrained models](https://drive.google.com/open?id=1uP2lNPutWgKhRqbwxZFdhQ9LapENCQXk)
+	* run `python test.py --cuda --testf your_test_dataset_folder`
 3. Sample outputs:
 	* in `./sample_outputs`there are mp4 files which are generated on my machine.
 
