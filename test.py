@@ -60,7 +60,7 @@ netG_S1.load_state_dict(torch.load(opt.netG_S1))
 netG_S2.load_state_dict(torch.load(opt.netG_S2))
 
 # -------------set inputs---------------------------------
-testset = VideoFolder(root=test_folder, 
+testset = VideoFolder(root=test_folder,
 					nframes = 32,
 					transform=transforms.Compose([
 								transforms.Resize( (imageSize, imageSize) ),
@@ -91,7 +91,7 @@ netG_S1.train()
 netG_S2.train()
 
 val_video = val_gt[:,:,0,:,:]
-val_video = val_video.unsqueeze(2).repeat(1,1,val_gt.size(2),1,1 )  
+val_video = val_video.unsqueeze(2).repeat(1,1,val_gt.size(2),1,1 )	
 val_fake_s1 =  netG_S1(Variable(val_video))
 val_fake_s2 = netG_S2(val_fake_s1) # size: batchsize * 3 * 32 * 64 *64
 val_fake_s1 = val_fake_s1.data.permute(2,0,1,3,4) 
@@ -103,7 +103,7 @@ for t in range(val_fake_s1.size(0)):
 	vutils.save_image(val_fake_s1[t], 
 		'%s/samples_s1_frame_%03d.png'
 		% (opt.outf, t),normalize=True, 
-		nrow = 8)                
+		nrow = 8)				 
 # save fake samples of stage 2
 for t in range(val_fake_s2.size(0)):
 	vutils.save_image(val_fake_s2[t],
@@ -115,10 +115,10 @@ for t in range(val_gt.permute(2,0,1,3,4).size(0)):
 	vutils.save_image(val_gt.permute(2,0,1,3,4)[t],
 		'%s/samples_real_frame_%03d.png'
 		% (opt.outf, t),normalize=True, 
-		nrow = 8)    
+		nrow = 8)	 
 
 def generate_video(model='s1', outf= opt.outf):
-	img_path = os.path.join(outf, 'samples_' + model +  '_frame_%03d.png')
+	img_path = os.path.join(outf, 'samples_' + model +	'_frame_%03d.png')
 	mp4_path = os.path.join(outf, model+ '_video.mp4')
 	cmd = ('ffmpeg -loglevel warning -framerate 25 -i ' + img_path + 
 		' -qscale:v 2 -y ' + mp4_path )
