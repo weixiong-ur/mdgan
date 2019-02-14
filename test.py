@@ -61,23 +61,23 @@ netG_S2.load_state_dict(torch.load(opt.netG_S2))
 
 # -------------set inputs---------------------------------
 testset = VideoFolder(root=test_folder,
-					nframes = 32,
-					transform=transforms.Compose([
-								transforms.Resize( (imageSize, imageSize) ),
-								transforms.ToTensor(),
-								transforms.Normalize((0.5, 0.5, 0.5),
-									(0.5, 0.5, 0.5)),
-									]))
+		nframes=32,
+		transform=transforms.Compose([
+					transforms.Resize( (imageSize, imageSize) ),
+					transforms.ToTensor(),
+					transforms.Normalize((0.5, 0.5, 0.5),
+						(0.5, 0.5, 0.5)),
+						]))
 
 print('testset size: ' + str (len(testset) ) )
 
 
 valid_loader = DataLoader(testset,
-					batch_size=48,
-					num_workers=1,
-					shuffle=True,
-					drop_last = True, 
-					pin_memory=False)						 
+			batch_size=48,
+			num_workers=1,
+			shuffle=True,
+			drop_last = True, 
+			pin_memory=False)						 
 valid_iter = iter(valid_loader)
 val_gt, _ = valid_iter.next()
 print('validation video loaded.')
